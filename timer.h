@@ -2,10 +2,11 @@
  * @file timer.h
  * @brief
  *
-
+ *  使用时间轮实现的定时器
+ *
  * @author tangfu - abctangfuqiang2008@163.com
  * @version 0.1
- * @date 2011-05-19
+ * @date 2012-06-09
  */
 
 #ifndef __TIMER_H__

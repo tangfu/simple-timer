@@ -1,8 +1,8 @@
 simple-timer
 ============
 
-a simple timer library, time-wheel
-一个简单的定时器库，使用一级时间轮实现
+a simple timer library, time-wheel and minheap
+一个简单的定时器库，分别使用一级时间轮和最小堆实现
 
 ===========
 1. 【特性】
@@ -19,5 +19,7 @@ a simple timer library, time-wheel
 
 ===========
 2. 【使用】
-
     详见example文件夹
+
+3. 【注意】
+    timer_manager_conf中的slot_num和timer_max_num通常情况应该一致。slot_num越大，定时粒度就越小，被单一散列的概率就更大；而timer_max_num远大于slot_num，那么每个时间片上挂接多个节点的概率就更大

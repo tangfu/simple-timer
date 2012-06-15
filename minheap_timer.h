@@ -1,22 +1,16 @@
 /**
- * @file timer.h
- * @brief 定时器
+ * @file minheap_timer.h
+ * @brief
  *
- * 1.暂时只采用单粒度时间轮来实现，未来版本会考虑支持多粒度的时间轮\n
- * 2.未来可能会加入最小堆的实现\n
- * 3.由于使用了线程读写锁, 并设置了pshared属性，因此线程锁可以在多个进程中使用，使用时必须链接pthread库\n
- * 4.库使用了SIGRTMAX-2信号，因此使用时不要冲突\n
- * 5.定时单位是毫秒，因此精确到ms(毫秒)\n
- * 6.添加定时器，不限制重复性，完全一样的定时器可以添加也不会被覆盖
- * 7.由于系统使用了clock_gettime因此使用时必须链接rt库(注意-lrt在-ltimer后面)
+ *  使用最小堆实现的定时器
  *
  * @author tangfu - abctangfuqiang2008@163.com
  * @version 0.1
- * @date 2011-05-19
+ * @date 2012-06-09
  */
 
-#ifndef __TIMER_H__
-#define	__TIMER_H__
+#ifndef __MINHEAP_TIMER_H__
+#define	__MINHEAP_TIMER_H__
 
 
 
