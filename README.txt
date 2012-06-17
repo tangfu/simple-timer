@@ -21,5 +21,13 @@ a simple timer library, time-wheel and minheap
 2. 【使用】
     详见example文件夹
 
-3. 【注意】
+3. 【与内核定时器区别】
+    内核定时器timer_list:
+	记录绝对时间(jiffers);每一层时间轮转完一圈将会触发上一层时间轮当前定时器列表被重新添加;定时器是否到期只依赖于最底层时间轮;时间轮的转动不需要额外操作;使用自旋锁.
+    用户级定时器simple-timer:
+	记录间隔时间(即超时时间);定时器一旦被添加到超时前不会被移动;定时器是否到期需要比较定时器圈数值;时间轮的转动需要对每个定时器做一次数学运算;使用互斥锁.
+
+4. 【注意】
     timer_manager_conf中的slot_num和timer_max_num通常情况应该一致。slot_num越大，定时粒度就越小，被单一散列的概率就更大；而timer_max_num远大于slot_num，那么每个时间片上挂接多个节点的概率就更大
+
+
