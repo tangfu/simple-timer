@@ -17,12 +17,12 @@
 
 void *timer1_task( void *p )
 {
-        printf( "this is task1 : %d\n", ( int )p );
+        printf( "this is task1 : %ld\n", ( long )p );
         return NULL;
 }
 void *timer2_task( void *p )
 {
-        printf( "this is task2 : %d\n", ( int )p );
+        printf( "this is task2 : %ld\n", ( long )p );
         return NULL;
 }
 

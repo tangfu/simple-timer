@@ -1,4 +1,11 @@
 *.swp
-libtimer.a
 test/test
 doc/html/*
+*~
+build/*
+CMakeFiles
+CMakeCache.txt
+Makefile
+makefile
+example
+cmake_install.cmake
