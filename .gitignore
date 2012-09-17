@@ -9,3 +9,4 @@ Makefile
 makefile
 example
 cmake_install.cmake
+*.orig

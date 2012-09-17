@@ -10,7 +10,7 @@
            (type *)( (char *)__mptr - offsetof(type,member) );})
 
 struct list_head {
-        struct list_head *next, *prev;
+    struct list_head *next, *prev;
 };
 
 #define LIST_HEAD_INIT(name) { &(name), &(name) }
@@ -18,139 +18,140 @@ struct list_head {
 #define LIST_HEAD(name) \
         struct list_head name = LIST_HEAD_INIT(name)
 
-static inline void INIT_LIST_HEAD( struct list_head *list )
+static inline void INIT_LIST_HEAD(struct list_head *list)
 {
-        list->next = list;
-        list->prev = list;
+    list->next = list;
+    list->prev = list;
 }
 
-static inline void __list_add( struct list_head *new,
-                               struct list_head *prev,
-                               struct list_head *next )
+static inline void __list_add(struct list_head *new,
+                              struct list_head *prev,
+                              struct list_head *next)
 {
-        next->prev = new;
-        new->next = next;
-        new->prev = prev;
-        prev->next = new;
+    next->prev = new;
+    new->next = next;
+    new->prev = prev;
+    prev->next = new;
 }
 
 
-static inline void list_add( struct list_head *new, struct list_head *head )
+static inline void list_add(struct list_head *new, struct list_head *head)
 {
-        __list_add( new, head, head->next );
+    __list_add(new, head, head->next);
 }
 
-static inline void list_add_tail( struct list_head *new, struct list_head *head )
+static inline void list_add_tail(struct list_head *new, struct list_head *head)
 {
-        __list_add( new, head->prev, head );
+    __list_add(new, head->prev, head);
 }
 
 // add myself
-static inline void list_exchange( struct list_head *list_1, struct list_head *list_2 )
+static inline void list_exchange(struct list_head *list_1, struct list_head *list_2)
 {
-        struct list_head *next_temp, *prev_temp;
-        list_1->prev->next = list_2;
-        list_1->next->prev	= list_2;
-        list_2->prev->next = list_1;
-        list_2->next->prev = list_1;
-        next_temp = list_1->next;
-        prev_temp = list_1->prev;
-        list_1->prev = list_2->prev;
-        list_1->next = list_2->next;
-        list_2->prev = prev_temp;
-        list_2->next = next_temp;
+    struct list_head *next_temp, *prev_temp;
+    list_1->prev->next = list_2;
+    list_1->next->prev	= list_2;
+    list_2->prev->next = list_1;
+    list_2->next->prev = list_1;
+    next_temp = list_1->next;
+    prev_temp = list_1->prev;
+    list_1->prev = list_2->prev;
+    list_1->next = list_2->next;
+    list_2->prev = prev_temp;
+    list_2->next = next_temp;
 }
 
-static inline void __list_del( struct list_head * prev, struct list_head * next )
+static inline void __list_del(struct list_head *prev, struct list_head *next)
 {
-        next->prev = prev;
-        prev->next = next;
+    next->prev = prev;
+    prev->next = next;
 }
 
-static inline void list_del( struct list_head *entry )
+static inline void list_del(struct list_head *entry)
 {
-        __list_del( entry->prev, entry->next );
-        entry->next = LIST_POISON1;
-        entry->prev = LIST_POISON2;
+    __list_del(entry->prev, entry->next);
+    entry->next = LIST_POISON1;
+    entry->prev = LIST_POISON2;
 }
 
-static inline void list_replace( struct list_head *old,
-                                 struct list_head *new )
+static inline void list_replace(struct list_head *old,
+                                struct list_head *new)
 {
-        new->next = old->next;
-        new->next->prev = new;
-        new->prev = old->prev;
-        new->prev->next = new;
+    new->next = old->next;
+    new->next->prev = new;
+    new->prev = old->prev;
+    new->prev->next = new;
 }
 
-static inline void list_replace_init( struct list_head *old,
-                                      struct list_head *new )
+static inline void list_replace_init(struct list_head *old,
+                                     struct list_head *new)
 {
-        list_replace( old, new );
-        INIT_LIST_HEAD( old );
+    list_replace(old, new);
+    INIT_LIST_HEAD(old);
 }
 
-static inline void list_del_init( struct list_head *entry )
+static inline void list_del_init(struct list_head *entry)
 {
-        __list_del( entry->prev, entry->next );
-        INIT_LIST_HEAD( entry );
+    __list_del(entry->prev, entry->next);
+    INIT_LIST_HEAD(entry);
 }
 
-static inline void list_move( struct list_head *list, struct list_head *head )
+static inline void list_move(struct list_head *list, struct list_head *head)
 {
-        __list_del( list->prev, list->next );
-        list_add( list, head );
+    __list_del(list->prev, list->next);
+    list_add(list, head);
 }
 
-static inline void list_move_tail( struct list_head *list,
-                                   struct list_head *head )
+static inline void list_move_tail(struct list_head *list,
+                                  struct list_head *head)
 {
-        __list_del( list->prev, list->next );
-        list_add_tail( list, head );
+    __list_del(list->prev, list->next);
+    list_add_tail(list, head);
 }
 
-static inline int list_is_last( const struct list_head *list,
-                                const struct list_head *head )
+static inline int list_is_last(const struct list_head *list,
+                               const struct list_head *head)
 {
-        return list->next == head;
+    return list->next == head;
 }
 
-static inline int list_empty( const struct list_head *head )
+static inline int list_empty(const struct list_head *head)
 {
-        return head->next == head;
+    return head->next == head;
 }
 
-static inline int list_empty_careful( const struct list_head *head )
+static inline int list_empty_careful(const struct list_head *head)
 {
-        struct list_head *next = head->next;
-        return ( next == head ) && ( next == head->prev );
+    struct list_head *next = head->next;
+    return (next == head) && (next == head->prev);
 }
 
-static inline void __list_splice( struct list_head *list,
-                                  struct list_head *head )
+static inline void __list_splice(struct list_head *list,
+                                 struct list_head *head)
 {
-        struct list_head *first = list->next;
-        struct list_head *last = list->prev;
-        struct list_head *at = head->next;
-        first->prev = head;
-        head->next = first;
-        last->next = at;
-        at->prev = last;
+    struct list_head *first = list->next;
+    struct list_head *last = list->prev;
+    struct list_head *at = head->next;
+    first->prev = head;
+    head->next = first;
+    last->next = at;
+    at->prev = last;
 }
 
-static inline void list_splice( struct list_head *list, struct list_head *head )
+static inline void list_splice(struct list_head *list, struct list_head *head)
 {
-        if( !list_empty( list ) )
-                __list_splice( list, head );
+    if(!list_empty(list)) {
+        __list_splice(list, head);
+    }
 }
 
-static inline void list_splice_init( struct list_head *list,
-                                     struct list_head *head )
+static inline void list_splice_init(struct list_head *list,
+                                    struct list_head *head)
 {
-        if( !list_empty( list ) ) {
-                __list_splice( list, head );
-                INIT_LIST_HEAD( list );
-        }
+    if(!list_empty(list)) {
+        __list_splice(list, head);
+        INIT_LIST_HEAD(list);
+    }
 }
 
 #define list_entry(ptr, type, member) \

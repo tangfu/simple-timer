@@ -18,23 +18,23 @@
 
 
 typedef struct {
-        volatile int32_t counter;
+    volatile int32_t counter;
 } atomic32_t;
 
 typedef struct {
-        volatile int8_t counter;
+    volatile int8_t counter;
 } atomic8_t;
 
 typedef struct {
-        volatile int16_t counter;
+    volatile int16_t counter;
 } atomic16_t;
 
 typedef struct {
-        volatile int64_t counter;
+    volatile int64_t counter;
 } atomic64_t;
 
 typedef struct {
-        volatile int counter;
+    volatile int counter;
 } atomic_t;
 
 #define atomic_read(v)      ((v)->counter)
@@ -56,42 +56,42 @@ typedef struct {
 #endif
 
 
-static inline void atomic_inc( atomic_t * v )
+static inline void atomic_inc(atomic_t *v)
 {
-        asm volatile( LOCK_PREFIX "incl %0":"=m"( v->counter )
-                      :"m"( v->counter ) );
+    asm volatile(LOCK_PREFIX "incl %0":"=m"(v->counter)
+                 :"m"(v->counter));
 }
 
-static inline void atomic_dec( atomic_t * v )
+static inline void atomic_dec(atomic_t *v)
 {
-        asm volatile( LOCK_PREFIX "decl %0":"=m"( v->counter )
-                      :"m"( v->counter ) );
+    asm volatile(LOCK_PREFIX "decl %0":"=m"(v->counter)
+                 :"m"(v->counter));
 }
 
-static inline void set_bit( int nr, volatile void *addr )
+static inline void set_bit(int nr, volatile void *addr)
 {
-        asm volatile( LOCK_PREFIX "bts %1,%0":ADDR:"Ir"( nr ):"memory" );
+    asm volatile(LOCK_PREFIX "bts %1,%0":ADDR:"Ir"(nr):"memory");
 }
 
-static inline int test_and_set_bit( int nr, volatile void *addr )
+static inline int test_and_set_bit(int nr, volatile void *addr)
 {
-        int oldbit;
-        asm volatile( LOCK_PREFIX "bts %2,%1nt"
-                      "sbb %0,%0":"=r"( oldbit ), ADDR:"Ir"( nr ):"memory" );
-        return oldbit;
+    int oldbit;
+    asm volatile(LOCK_PREFIX "bts %2,%1nt"
+                 "sbb %0,%0":"=r"(oldbit), ADDR:"Ir"(nr):"memory");
+    return oldbit;
 }
 
-static inline void clear_bit( int nr, volatile void *addr )
+static inline void clear_bit(int nr, volatile void *addr)
 {
-        asm volatile( LOCK_PREFIX "btr %1,%0":ADDR:"Ir"( nr ) );
+    asm volatile(LOCK_PREFIX "btr %1,%0":ADDR:"Ir"(nr));
 }
 
-static inline int test_and_clear_bit( int nr, volatile void *addr )
+static inline int test_and_clear_bit(int nr, volatile void *addr)
 {
-        int oldbit;
-        asm volatile( LOCK_PREFIX "btr %2,%1nt"
-                      "sbb %0,%0":"=r"( oldbit ), ADDR:"Ir"( nr ):"memory" );
-        return oldbit;
+    int oldbit;
+    asm volatile(LOCK_PREFIX "btr %2,%1nt"
+                 "sbb %0,%0":"=r"(oldbit), ADDR:"Ir"(nr):"memory");
+    return oldbit;
 }
 
 #else
